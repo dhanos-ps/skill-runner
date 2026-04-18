@@ -1,0 +1,22 @@
+{
+  "name": "pai-runner",
+  "version": "0.1.0",
+  "description": "PAI Skills-as-a-Service container runtime",
+  "scripts": {
+    "dev": "bun run --hot src/server.ts",
+    "start": "bun run src/server.ts",
+    "typecheck": "bun tsc --noEmit"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "ajv": "^8.17.1",
+    "uuid": "^11.1.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/uuid": "^10.0.0",
+    "bun-types": "^1.3.12",
+    "typescript": "^5.7.0"
+  }
+}
