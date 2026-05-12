@@ -1,0 +1,113 @@
+{
+  "skill": "_Example",
+  "tier": 1,
+  "workflows_dir": "skills/_Example/Workflows",
+  "tools": [
+    {
+      "name": "list_files",
+      "description": "List files in a directory within the job workspace. Returns one file path per line.",
+      "command": "find",
+      "args": [],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "dir_path": {
+            "type": "string",
+            "description": "Directory to list, relative to job root (e.g. 'input')",
+            "x-path-field": true
+          }
+        },
+        "required": ["dir_path"]
+      },
+      "input_map": {
+        "dir_path": "positional:0"
+      },
+      "path_fields": ["dir_path"]
+    },
+    {
+      "name": "read_file",
+      "description": "Read the contents of a text file within the job workspace.",
+      "command": "cat",
+      "args": [],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Path to the file to read",
+            "x-path-field": true
+          }
+        },
+        "required": ["file_path"]
+      },
+      "input_map": {
+        "file_path": "positional:0"
+      },
+      "path_fields": ["file_path"]
+    },
+    {
+      "name": "word_count",
+      "description": "Count words, lines, and characters in a text file.",
+      "command": "wc",
+      "args": [],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Path to the file to count",
+            "x-path-field": true
+          }
+        },
+        "required": ["file_path"]
+      },
+      "input_map": {
+        "file_path": "positional:0"
+      },
+      "path_fields": ["file_path"]
+    },
+    {
+      "name": "write_file",
+      "description": "Write text content to a file in the job output directory.",
+      "_builtin": true,
+      "command": "__builtin_write",
+      "args": [],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Output file path relative to job output directory (e.g. 'summary.md')",
+            "x-path-field": true
+          },
+          "content": {
+            "type": "string",
+            "description": "Full text content to write"
+          }
+        },
+        "required": ["file_path", "content"]
+      },
+      "input_map": {},
+      "path_fields": ["file_path"]
+    }
+  ],
+  "slack": {
+    "command": "/summarize",
+    "empty_text_error": "Please provide a topic: `/summarize meeting notes`",
+    "intro_message": "Got it -- summarizing: *{topic}*\n\nUpload your text file as a reply in this thread.",
+    "workflow": "Summarize",
+    "accepts_file": true,
+    "output_extension": ".md",
+    "params": {
+      "topic": "{{command_text}}",
+      "author": "{{user_real_name}}"
+    }
+  },
+  "security": {
+    "path_containment": true,
+    "max_tool_calls_per_job": 20,
+    "max_job_duration_seconds": 300,
+    "max_upload_size_mb": 10,
+    "audit_log": true
+  }
+}

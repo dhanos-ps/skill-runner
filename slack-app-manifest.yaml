@@ -1,0 +1,35 @@
+display_information:
+  name: Skill Runner
+  description: Run AI skills — upload a file, get a result
+  background_color: "#4A90D9"
+
+features:
+  bot_user:
+    display_name: Skill Runner
+    always_online: true
+  slash_commands:
+    - command: /summarize
+      description: Summarize uploaded text files
+      usage_hint: "[topic]"
+      should_escape: false
+
+oauth_config:
+  scopes:
+    bot:
+      - chat:write
+      - chat:write.public
+      - channels:history
+      - files:read
+      - files:write
+      - commands
+
+settings:
+  event_subscriptions:
+    bot_events:
+      - file_shared
+      - message.channels
+  interactivity:
+    is_enabled: false
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false
